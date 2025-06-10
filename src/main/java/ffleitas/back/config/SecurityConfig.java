@@ -42,7 +42,12 @@ public class SecurityConfig
 				.csrf(AbstractHttpConfigurer::disable)
 				.cors(Customizer.withDefaults())
 				.authorizeHttpRequests(req ->
-						req.requestMatchers("/auth/**").permitAll()
+						req.requestMatchers("/auth/**",
+										"/swagger-ui/**",
+										"/v3/api-docs/**",
+										"/swagger-ui.html",
+										"/swagger-resources/**",
+										"/webjars/**").permitAll()
 								.anyRequest().authenticated()
 						)
 				.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

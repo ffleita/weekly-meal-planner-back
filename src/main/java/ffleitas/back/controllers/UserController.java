@@ -17,7 +17,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 @Getter
 @Setter
@@ -26,7 +26,7 @@ public class UserController
 	private final UserService userService;
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-	@GetMapping("/users")
+	@GetMapping()
 	public ResponseEntity<List<UserDTO>> getAllUsers()
 	{
 		try
@@ -40,7 +40,7 @@ public class UserController
 		}
 	}
 
-	@GetMapping("/users/roles")
+	@GetMapping("/roles")
 	public ResponseEntity<List<String>> getAvailableRolesForUsers() {
 		try {
 			return ResponseEntity.ok(getUserService().getAvailableRolesForUsers());

@@ -12,10 +12,9 @@ import java.net.http.HttpResponse;
 
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/tokens")
 @RequiredArgsConstructor
 @Getter
-@Setter
 public class TokenController
 {
 
