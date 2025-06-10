@@ -1,4 +1,12 @@
 package ffleitas.back.dtos.ingredientes;
 
-public record IngredienteDTO(int id, String nombre) {
+import lombok.Builder;
+import lombok.Data;
+
+@Builder
+@Data
+public class IngredienteDTO {
+
+    private int id;
+    private String nombre;
 }

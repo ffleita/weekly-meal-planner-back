@@ -1,6 +1,8 @@
 package ffleitas.back.controllers;
 
 
+import ffleitas.back.dtos.ingredientes.CrearIngredienteRequest;
+import ffleitas.back.dtos.ingredientes.IngredienteCreadoResponse;
 import ffleitas.back.dtos.ingredientes.IngredientesResponse;
 import ffleitas.back.service.IngredienteService;
 import jakarta.annotation.Resource;
@@ -32,6 +34,16 @@ public class IngredientesController {
         } catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(new IngredientesResponse(HttpStatus.NOT_FOUND.toString(), List.of(), e.getMessage()), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<IngredienteCreadoResponse> createIngredient(@RequestBody CrearIngredienteRequest request) {
+        try {
+            return new ResponseEntity<>(getIngredientesService().createIngredient(request), HttpStatus.CREATED);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(new IngredienteCreadoResponse(HttpStatus.BAD_GATEWAY.toString(), null, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
