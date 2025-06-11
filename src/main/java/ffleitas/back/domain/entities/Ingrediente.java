@@ -20,4 +20,5 @@ public class Ingrediente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nombre;
+    private boolean borradoLogico;
 }

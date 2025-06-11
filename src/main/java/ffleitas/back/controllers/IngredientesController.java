@@ -4,8 +4,12 @@ package ffleitas.back.controllers;
 import ffleitas.back.dtos.ingredientes.CrearIngredienteRequest;
 import ffleitas.back.dtos.ingredientes.IngredienteCreadoResponse;
 import ffleitas.back.dtos.ingredientes.IngredientesResponse;
+import ffleitas.back.exceptions.DependenciasActivasException;
+import ffleitas.back.exceptions.ElementoInexistenteException;
 import ffleitas.back.service.IngredienteService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +53,31 @@ public class IngredientesController {
             return new ResponseEntity<>(new IngredienteCreadoResponse(HttpStatus.BAD_GATEWAY.toString(), null, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @Operation(summary = "Eliminar ingrediente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Eliminacion exitosa"),
+            @ApiResponse(responseCode = "404", description = "Ingrediente no encontrado"),
+            @ApiResponse(responseCode = "409", description = "Ingrediente asociado a receta"),
+            @ApiResponse(responseCode = "400", description = "Error generico")
+    })
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteIngredient(@PathVariable Integer id) {
+        try {
+            getIngredientesService().deleteIngredient(id);
+            return ResponseEntity.noContent().build();
+        } catch (ElementoInexistenteException e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (DependenciasActivasException e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
     public IngredienteService getIngredientesService() {
         return ingredientesService;

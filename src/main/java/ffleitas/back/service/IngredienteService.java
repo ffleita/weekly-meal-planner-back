@@ -9,4 +9,6 @@ public interface IngredienteService {
     IngredientesResponse getAllIngredients();
 
     IngredienteCreadoResponse createIngredient(CrearIngredienteRequest request);
+
+    void deleteIngredient(Integer id);
 }

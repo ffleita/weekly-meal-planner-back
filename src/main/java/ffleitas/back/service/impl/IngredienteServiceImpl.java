@@ -5,6 +5,8 @@ import ffleitas.back.domain.repositories.IngredientesRepository;
 import ffleitas.back.dtos.ingredientes.CrearIngredienteRequest;
 import ffleitas.back.dtos.ingredientes.IngredienteCreadoResponse;
 import ffleitas.back.dtos.ingredientes.IngredientesResponse;
+import ffleitas.back.exceptions.DependenciasActivasException;
+import ffleitas.back.exceptions.ElementoInexistenteException;
 import ffleitas.back.exceptions.ErrorAlCrearObjetoException;
 import ffleitas.back.mappers.IngredienteMapper;
 import ffleitas.back.service.IngredienteService;
@@ -24,7 +26,7 @@ public class IngredienteServiceImpl implements IngredienteService {
 
     @Override
     public IngredientesResponse getAllIngredients() {
-        return new IngredientesResponse(HttpStatus.OK.toString(), getIngredientesRepository().findAll(), "");
+        return new IngredientesResponse(HttpStatus.OK.toString(), getIngredientesRepository().findAllNotDeleted(), "");
     }
 
     @Override
@@ -44,5 +46,21 @@ public class IngredienteServiceImpl implements IngredienteService {
         } catch (Exception e) {
             throw new ErrorAlCrearObjetoException(e.getMessage());
         }
+    }
+
+    @Override
+    public void deleteIngredient(Integer id) {
+        if (id == null) {
+            throw new IllegalArgumentException("El id del ingrediente no puede ser vacio.");
+        }
+        if (!getIngredientesRepository().findByIdNotDeleted(Long.valueOf(id)).isPresent()) {
+            throw new ElementoInexistenteException("El ingrediente no existe");
+        };
+        if (getIngredientesRepository().existsRecetaWithIngrediente(id)) {
+            throw new DependenciasActivasException("El ingrediente esta asociado a recetas.");
+        }
+        Ingrediente ingrediente = getIngredientesRepository().findByIdNotDeleted(Long.valueOf(id)).get();
+        ingrediente.setBorradoLogico(true);
+        getIngredientesRepository().save(ingrediente);
     }
 }
