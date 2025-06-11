@@ -5,6 +5,8 @@ import ffleitas.back.dtos.ingredientes.CrearIngredienteRequest;
 import ffleitas.back.dtos.ingredientes.IngredienteCreadoResponse;
 import ffleitas.back.dtos.ingredientes.IngredientesResponse;
 import ffleitas.back.service.IngredienteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -18,6 +20,7 @@ import java.util.*;
 @RestController
 @RequestMapping("ingredientes")
 @RequiredArgsConstructor
+@Tag(name = "Ingredientes", description = "Operaciones CRUD para ingredientes")
 public class IngredientesController {
 
     private static final Logger log = LoggerFactory.getLogger(IngredientesController.class);
@@ -25,9 +28,8 @@ public class IngredientesController {
     @Resource
     private final IngredienteService ingredientesService;
 
-
-
-    @GetMapping
+    @Operation(summary = "Obtener todos los ingredientes")
+    @GetMapping()
     public ResponseEntity<IngredientesResponse> getAllIngredients() {
         try {
             return new ResponseEntity<>(getIngredientesService().getAllIngredients(), HttpStatus.OK);
@@ -37,6 +39,7 @@ public class IngredientesController {
         }
     }
 
+    @Operation(summary = "Crear nuevo ingrediente")
     @PostMapping
     public ResponseEntity<IngredienteCreadoResponse> createIngredient(@RequestBody CrearIngredienteRequest request) {
         try {
