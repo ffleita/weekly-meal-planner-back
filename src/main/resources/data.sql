@@ -1,24 +1,24 @@
 -- Ingrediente
-INSERT INTO ingrediente (id, nombre) VALUES (1, 'Tomate');
-INSERT INTO ingrediente (id, nombre) VALUES (2, 'Cebolla');
-INSERT INTO ingrediente (id, nombre) VALUES (3, 'Pimiento');
-INSERT INTO ingrediente (id, nombre) VALUES (4, 'Aceite de oliva');
-INSERT INTO ingrediente (id, nombre) VALUES (5, 'Ajo');
-INSERT INTO ingrediente (id, nombre) VALUES (6, 'Sal');
-INSERT INTO ingrediente (id, nombre) VALUES (7, 'Pimienta');
-INSERT INTO ingrediente (id, nombre) VALUES (8, 'Orégano');
-INSERT INTO ingrediente (id, nombre) VALUES (9, 'Albahaca');
-INSERT INTO ingrediente (id, nombre) VALUES (10, 'Lechuga');
-INSERT INTO ingrediente (id, nombre) VALUES (11, 'Zanahoria');
-INSERT INTO ingrediente (id, nombre) VALUES (12, 'Apio');
-INSERT INTO ingrediente (id, nombre) VALUES (13, 'Queso');
-INSERT INTO ingrediente (id, nombre) VALUES (14, 'Pan');
-INSERT INTO ingrediente (id, nombre) VALUES (15, 'Carne de res');
-INSERT INTO ingrediente (id, nombre) VALUES (16, 'Pollo');
-INSERT INTO ingrediente (id, nombre) VALUES (17, 'Pescado');
-INSERT INTO ingrediente (id, nombre) VALUES (18, 'Limón');
-INSERT INTO ingrediente (id, nombre) VALUES (19, 'Vinagre');
-INSERT INTO ingrediente (id, nombre) VALUES (20, 'Azúcar');
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (1, 'Tomate', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (2, 'Cebolla', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (3, 'Pimiento', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (4, 'Aceite de oliva', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (5, 'Ajo', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (6, 'Sal', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (7, 'Pimienta', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (8, 'Orégano', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (9, 'Albahaca', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (10, 'Lechuga', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (11, 'Zanahoria', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (12, 'Apio', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (13, 'Queso', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (14, 'Pan', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (15, 'Carne de res', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (16, 'Pollo', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (17, 'Pescado', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (18, 'Limón', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (19, 'Vinagre', 0);
+INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (20, 'Azúcar', 0);
 
 -- Medida
 INSERT INTO medida (id, descripcion) VALUES (1, 'GRAMOS');
