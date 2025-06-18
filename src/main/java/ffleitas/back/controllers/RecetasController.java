@@ -1,6 +1,5 @@
 package ffleitas.back.controllers;
 
-import ffleitas.back.domain.entities.Receta;
 import ffleitas.back.dtos.recetas.RecetaDTO;
 import ffleitas.back.exceptions.ElementoInexistenteException;
 import ffleitas.back.service.RecetaService;
@@ -10,7 +9,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,11 +28,9 @@ public class RecetasController
 	private final RecetaService recetaService;
 
 	@Operation(summary = "Obtener todas las recetas disponibles")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "OK"),
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "404", description = "No se encontraron recetas disponibles"),
-			@ApiResponse(responseCode = "400", description = "Error general")
-	})
+			@ApiResponse(responseCode = "400", description = "Error general") })
 	@GetMapping()
 	public ResponseEntity<List<RecetaDTO>> listarRecetas()
 	{

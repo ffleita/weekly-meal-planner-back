@@ -24,7 +24,8 @@ public class RecetaServiceImpl implements RecetaService
 	public List<RecetaDTO> listarRecetas()
 	{
 		final var listadoRecetas = getRecetasRepository().findAllNotEliminated();
-		if (listadoRecetas.isEmpty()) {
+		if (listadoRecetas.isEmpty())
+		{
 			throw new ElementoInexistenteException("No se encontraron recetas activas");
 		}
 		return RecetaMapper.allToRecetaDTO(listadoRecetas);

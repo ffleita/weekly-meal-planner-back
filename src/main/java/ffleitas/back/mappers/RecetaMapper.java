@@ -12,10 +12,7 @@ public class RecetaMapper
 
 	public static RecetaDTO toRecetaDTO(Receta receta)
 	{
-		return RecetaDTO.builder()
-				.id(receta.getId())
-				.nombre(receta.getNombre())
-				.build();
+		return RecetaDTO.builder().id(receta.getId()).nombre(receta.getNombre()).build();
 	}
 
 	public static List<RecetaDTO> allToRecetaDTO(List<Receta> recetas)
