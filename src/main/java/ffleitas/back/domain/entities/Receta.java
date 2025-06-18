@@ -19,4 +19,6 @@ public class Receta {
     private String nombre;
     @Column(columnDefinition = "TEXT")
     private String pasos;
+    @Column(name = "borrado_logico", nullable = false)
+    private boolean borradoLogico = false;
 }
