@@ -21,65 +21,85 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+
 @RestController
 @RequestMapping("ingredientes")
 @RequiredArgsConstructor
 @Tag(name = "Ingredientes", description = "Operaciones CRUD para ingredientes")
-public class IngredientesController {
+public class IngredientesController
+{
 
-    private static final Logger log = LoggerFactory.getLogger(IngredientesController.class);
+	private static final Logger log = LoggerFactory.getLogger(IngredientesController.class);
 
-    @Resource
-    private final IngredienteService ingredientesService;
+	@Resource
+	private final IngredienteService ingredientesService;
 
-    @Operation(summary = "Obtener todos los ingredientes")
-    @GetMapping()
-    public ResponseEntity<IngredientesResponse> getAllIngredients() {
-        try {
-            return new ResponseEntity<>(getIngredientesService().getAllIngredients(), HttpStatus.OK);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return new ResponseEntity<>(new IngredientesResponse(HttpStatus.NOT_FOUND.toString(), List.of(), e.getMessage()), HttpStatus.NOT_FOUND);
-        }
-    }
+	@Operation(summary = "Obtener todos los ingredientes")
+	@GetMapping()
+	public ResponseEntity<IngredientesResponse> getAllIngredients()
+	{
+		try
+		{
+			return new ResponseEntity<>(getIngredientesService().getAllIngredients(), HttpStatus.OK);
+		}
+		catch (Exception e)
+		{
+			log.error(e.getMessage());
+			return new ResponseEntity<>(new IngredientesResponse(HttpStatus.NOT_FOUND.toString(), List.of(), e.getMessage()),
+					HttpStatus.NOT_FOUND);
+		}
+	}
 
-    @Operation(summary = "Crear nuevo ingrediente")
-    @PostMapping
-    public ResponseEntity<IngredienteCreadoResponse> createIngredient(@RequestBody CrearIngredienteRequest request) {
-        try {
-            return new ResponseEntity<>(getIngredientesService().createIngredient(request), HttpStatus.CREATED);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return new ResponseEntity<>(new IngredienteCreadoResponse(HttpStatus.BAD_GATEWAY.toString(), null, e.getMessage()), HttpStatus.BAD_REQUEST);
-        }
-    }
+	@Operation(summary = "Crear nuevo ingrediente")
+	@PostMapping
+	public ResponseEntity<IngredienteCreadoResponse> createIngredient(@RequestBody CrearIngredienteRequest request)
+	{
+		try
+		{
+			return new ResponseEntity<>(getIngredientesService().createIngredient(request), HttpStatus.CREATED);
+		}
+		catch (Exception e)
+		{
+			log.error(e.getMessage());
+			return new ResponseEntity<>(new IngredienteCreadoResponse(HttpStatus.BAD_GATEWAY.toString(), null, e.getMessage()),
+					HttpStatus.BAD_REQUEST);
+		}
+	}
 
-    @Operation(summary = "Eliminar ingrediente")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Eliminacion exitosa"),
-            @ApiResponse(responseCode = "404", description = "Ingrediente no encontrado"),
-            @ApiResponse(responseCode = "409", description = "Ingrediente asociado a receta"),
-            @ApiResponse(responseCode = "400", description = "Error generico")
-    })
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteIngredient(@PathVariable Integer id) {
-        try {
-            getIngredientesService().deleteIngredient(id);
-            return ResponseEntity.noContent().build();
-        } catch (ElementoInexistenteException e) {
-            log.error(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (DependenciasActivasException e) {
-            log.error(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
+	@Operation(summary = "Eliminar ingrediente")
+	@ApiResponses(value = { @ApiResponse(responseCode = "204", description = "Eliminacion exitosa"),
+			@ApiResponse(responseCode = "404", description = "Ingrediente no encontrado"),
+			@ApiResponse(responseCode = "409", description = "Ingrediente asociado a receta"),
+			@ApiResponse(responseCode = "403", description = "Error de autorizacion"),
+			@ApiResponse(responseCode = "400", description = "Error generico") })
+	@DeleteMapping("{id}")
+	public ResponseEntity<String> deleteIngredient(@PathVariable Integer id)
+	{
+		try
+		{
+			getIngredientesService().deleteIngredient(id);
+			return ResponseEntity.noContent().build();
+		}
+		catch (ElementoInexistenteException e)
+		{
+			log.error(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		catch (DependenciasActivasException e)
+		{
+			log.error(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+		}
+		catch (Exception e)
+		{
+			log.error(e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
 
 
-    public IngredienteService getIngredientesService() {
-        return ingredientesService;
-    }
+	public IngredienteService getIngredientesService()
+	{
+		return ingredientesService;
+	}
 }
