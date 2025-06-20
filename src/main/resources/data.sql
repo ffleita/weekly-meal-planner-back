@@ -1,3 +1,5 @@
+INSERT INTO user (id, username, password, email, role, created_at) VALUES (1, 'admin', $2a$10$xmOYznG8F8ETArxwzV.BrOS.jm3m1GKbw8diIMx68mUK.GIO35BeO, 'mail@mail.com', 'ADMIN', current_timestamp);
+
 -- Ingrediente
 INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (1, 'Tomate', 0);
 INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (2, 'Cebolla', 0);
@@ -21,23 +23,23 @@ INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (19, 'Vinagre', 0);
 INSERT INTO ingrediente (id, nombre, borrado_logico) VALUES (20, 'Azúcar', 0);
 
 -- Medida
-INSERT INTO medida (id, descripcion) VALUES (1, 'GRAMOS');
-INSERT INTO medida (id, descripcion) VALUES (2, 'MILILITROS');
-INSERT INTO medida (id, descripcion) VALUES (3, 'UNIDADES');
-INSERT INTO medida (id, descripcion) VALUES (4, 'CUCHARADAS');
-INSERT INTO medida (id, descripcion) VALUES (5, 'TAZAS');
-INSERT INTO medida (id, descripcion) VALUES (6, 'LITROS');
-INSERT INTO medida (id, descripcion) VALUES (7, 'PUÑADOS');
-INSERT INTO medida (id, descripcion) VALUES (8, 'PIZCAS');
-INSERT INTO medida (id, descripcion) VALUES (9, 'KILOGRAMOS');
-INSERT INTO medida (id, descripcion) VALUES (10, 'ONZAS');
+INSERT INTO medida (id, descripcion, borrado_logico) VALUES (1, 'GRAMOS', false);
+INSERT INTO medida (id, descripcion, borrado_logico) VALUES (2, 'MILILITROS', false);
+INSERT INTO medida (id, descripcion, borrado_logico) VALUES (3, 'UNIDADES', false);
+INSERT INTO medida (id, descripcion, borrado_logico) VALUES (4, 'CUCHARADAS', false);
+INSERT INTO medida (id, descripcion, borrado_logico) VALUES (5, 'TAZAS', false);
+INSERT INTO medida (id, descripcion, borrado_logico) VALUES (6, 'LITROS', false);
+INSERT INTO medida (id, descripcion, borrado_logico) VALUES (7, 'PUÑADOS', false);
+INSERT INTO medida (id, descripcion, borrado_logico) VALUES (8, 'PIZCAS', false);
+INSERT INTO medida (id, descripcion, borrado_logico) VALUES (9, 'KILOGRAMOS', false);
+INSERT INTO medida (id, descripcion, borrado_logico) VALUES (10, 'ONZAS', false);
 
 -- Receta
-INSERT INTO receta (id, nombre, pasos) VALUES (1, 'Ensalada Fresca', 'Lavar y cortar los vegetales. Mezclar y servir.');
-INSERT INTO receta (id, nombre, pasos) VALUES (2, 'Salsa de Tomate Casera', 'Picar tomates y ajo, cocinar con especias hasta espesar.');
-INSERT INTO receta (id, nombre, pasos) VALUES (3, 'Pollo al Horno', 'Marinar el pollo, luego hornear hasta dorar.');
-INSERT INTO receta (id, nombre, pasos) VALUES (4, 'Pasta Alfredo', 'Cocinar la pasta y preparar salsa con queso y ajo.');
-INSERT INTO receta (id, nombre, pasos) VALUES (5, 'Tarta de Verduras', 'Preparar masa, agregar verduras y queso, hornear.');
+INSERT INTO receta (id, nombre, pasos, borrado_logico) VALUES (1, 'Ensalada Fresca', 'Lavar y cortar los vegetales. Mezclar y servir.', false);
+INSERT INTO receta (id, nombre, pasos, borrado_logico) VALUES (2, 'Salsa de Tomate Casera', 'Picar tomates y ajo, cocinar con especias hasta espesar.', false);
+INSERT INTO receta (id, nombre, pasos, borrado_logico) VALUES (3, 'Pollo al Horno', 'Marinar el pollo, luego hornear hasta dorar.', false);
+INSERT INTO receta (id, nombre, pasos, borrado_logico) VALUES (4, 'Pasta Alfredo', 'Cocinar la pasta y preparar salsa con queso y ajo.', false);
+INSERT INTO receta (id, nombre, pasos, borrado_logico) VALUES (5, 'Tarta de Verduras', 'Preparar masa, agregar verduras y queso, hornear.', false);
 
 
 -- IngredienteReceta para Receta 1: Ensalada Fresca
