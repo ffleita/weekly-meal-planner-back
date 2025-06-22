@@ -65,11 +65,10 @@ public class IngredienteServiceImpl implements IngredienteService
 		{
 			throw new IllegalArgumentException("El id del ingrediente no puede ser vacio.");
 		}
-		if (!getIngredientesRepository().findByIdNotDeleted(Long.valueOf(id)).isPresent())
+		if (getIngredientesRepository().findByIdNotDeleted(Long.valueOf(id)).isEmpty())
 		{
 			throw new ElementoInexistenteException("El ingrediente no existe");
 		}
-		;
 		if (getIngredientesRepository().existsRecetaWithIngrediente(id))
 		{
 			throw new DependenciasActivasException("El ingrediente esta asociado a recetas.");
@@ -85,6 +84,18 @@ public class IngredienteServiceImpl implements IngredienteService
 		if (ingrediente == null) {
 			throw new ElementoInexistenteException("El ingrediente no existe");
 		}
+		return IngredienteMapper.toIngredienteDTO(ingrediente);
+	}
+
+	@Override
+	public IngredienteDTO updateIngrediente(IngredienteDTO ingredienteDTO) {
+
+		final var ingrediente = getIngredientesRepository().findByIdNotDeleted((long) ingredienteDTO.getId()).orElse(null);
+		if (ingrediente == null) {
+			throw new ElementoInexistenteException("El ingrediente no existe");
+		}
+		ingrediente.setNombre(ingredienteDTO.getNombre());
+		getIngredientesRepository().save(ingrediente);
 		return IngredienteMapper.toIngredienteDTO(ingrediente);
 	}
 }

@@ -50,6 +50,7 @@ public class IngredientesController
 		}
 	}
 
+	@Operation(summary = "Obtener ingrediente por id")
 	@GetMapping("{id}")
 	public ResponseEntity<IngredienteDTO> findIngredienteById(@PathVariable Integer id)
 	{
@@ -82,6 +83,20 @@ public class IngredientesController
 			log.error(e.getMessage());
 			return new ResponseEntity<>(new IngredienteCreadoResponse(HttpStatus.BAD_GATEWAY.toString(), null, e.getMessage()),
 					HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@Operation(summary = "Actualizar ingrediente")
+	@PutMapping("")
+	public ResponseEntity<IngredienteDTO> updateIngrediente(@RequestBody IngredienteDTO ingredienteDTO) {
+		try {
+			return new ResponseEntity<>(getIngredientesService().updateIngrediente(ingredienteDTO), HttpStatus.OK);
+		} catch (ElementoInexistenteException e) {
+			log.error(e.getMessage());
+			return ResponseEntity.notFound().build();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return ResponseEntity.badRequest().build();
 		}
 	}
 

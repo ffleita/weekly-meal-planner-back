@@ -14,4 +14,6 @@ public interface IngredienteService {
     void deleteIngredient(Integer id);
 
     IngredienteDTO findIngredientById(Integer id);
+
+    IngredienteDTO updateIngrediente(IngredienteDTO ingredienteDTO);
 }
