@@ -4,6 +4,7 @@ import ffleitas.back.domain.entities.Ingrediente;
 import ffleitas.back.domain.repositories.IngredientesRepository;
 import ffleitas.back.dtos.ingredientes.CrearIngredienteRequest;
 import ffleitas.back.dtos.ingredientes.IngredienteCreadoResponse;
+import ffleitas.back.dtos.ingredientes.IngredienteDTO;
 import ffleitas.back.dtos.ingredientes.IngredientesResponse;
 import ffleitas.back.exceptions.DependenciasActivasException;
 import ffleitas.back.exceptions.ElementoInexistenteException;
@@ -76,5 +77,14 @@ public class IngredienteServiceImpl implements IngredienteService
 		Ingrediente ingrediente = getIngredientesRepository().findByIdNotDeleted(Long.valueOf(id)).get();
 		ingrediente.setBorradoLogico(true);
 		getIngredientesRepository().save(ingrediente);
+	}
+
+	@Override
+	public IngredienteDTO findIngredientById(Integer id) {
+		final var ingrediente = getIngredientesRepository().findByIdNotDeleted((long) id).orElse(null);
+		if (ingrediente == null) {
+			throw new ElementoInexistenteException("El ingrediente no existe");
+		}
+		return IngredienteMapper.toIngredienteDTO(ingrediente);
 	}
 }

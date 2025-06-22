@@ -3,6 +3,7 @@ package ffleitas.back.controllers;
 
 import ffleitas.back.dtos.ingredientes.CrearIngredienteRequest;
 import ffleitas.back.dtos.ingredientes.IngredienteCreadoResponse;
+import ffleitas.back.dtos.ingredientes.IngredienteDTO;
 import ffleitas.back.dtos.ingredientes.IngredientesResponse;
 import ffleitas.back.exceptions.DependenciasActivasException;
 import ffleitas.back.exceptions.ElementoInexistenteException;
@@ -46,6 +47,25 @@ public class IngredientesController
 			log.error(e.getMessage());
 			return new ResponseEntity<>(new IngredientesResponse(HttpStatus.NOT_FOUND.toString(), List.of(), e.getMessage()),
 					HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@GetMapping("{id}")
+	public ResponseEntity<IngredienteDTO> findIngredienteById(@PathVariable Integer id)
+	{
+		try
+		{
+			return new ResponseEntity<>(getIngredientesService().findIngredientById(id), HttpStatus.OK);
+		}
+		catch (ElementoInexistenteException e)
+		{
+			log.error(e.getMessage());
+			return ResponseEntity.notFound().build();
+		}
+		catch (Exception e)
+		{
+			log.error(e.getMessage());
+			return ResponseEntity.badRequest().build();
 		}
 	}
 
