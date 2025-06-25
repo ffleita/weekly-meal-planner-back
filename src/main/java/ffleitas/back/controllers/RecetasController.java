@@ -11,10 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,18 +33,7 @@ public class RecetasController
 	@GetMapping()
 	public ResponseEntity<List<RecetaDTO>> listarRecetas()
 	{
-		try
-		{
-			return ResponseEntity.ok(getRecetaService().listarRecetas());
-		}
-		catch (ElementoInexistenteException e)
-		{
-			return ResponseEntity.notFound().build();
-		}
-		catch (Exception e)
-		{
-			return ResponseEntity.badRequest().build();
-		}
+		return ResponseEntity.ok(getRecetaService().listarRecetas());
 	}
 
 	@Operation(summary = "Obtener detalle de receta")
@@ -57,14 +43,6 @@ public class RecetasController
 	@GetMapping("{idReceta}")
 	public ResponseEntity<RecetaDetailDTO> getDetalleReceta(@PathVariable int idReceta)
 	{
-		try
-		{
-			return ResponseEntity.ok(getRecetaService().obtenerDetalleRecetaPorId(idReceta));
-		}
-		catch (ElementoInexistenteException e) {
-			return ResponseEntity.notFound().build();
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().build();
-		}
+		return ResponseEntity.ok(getRecetaService().obtenerDetalleRecetaPorId(idReceta));
 	}
 }
