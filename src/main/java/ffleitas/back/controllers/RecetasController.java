@@ -47,6 +47,7 @@ public class RecetasController
 		return ResponseEntity.ok(getRecetaService().obtenerDetalleRecetaPorId(idReceta));
 	}
 
+	@Operation(summary = "Crear una nueva receta")
 	@PostMapping()
 	public ResponseEntity<RecetaDTO> crearReceta(@RequestBody CrearRecetaRequest request) {
 		RecetaDTO recetaCreada = getRecetaService().crearReceta(request);
