@@ -2,6 +2,7 @@ package ffleitas.back.handlers;
 
 import ffleitas.back.exceptions.DependenciasActivasException;
 import ffleitas.back.exceptions.ElementoInexistenteException;
+import ffleitas.back.exceptions.ErrorAlCrearObjetoException;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,5 +40,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleDependenciasActivasException(final DependenciasActivasException e) {
         LOG.error("Manejando dependenciasActivasException: {}", e.getMessage());
         return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ErrorAlCrearObjetoException.class)
+    public ResponseEntity<String> handleErrorAlCrearObjetoException(final ErrorAlCrearObjetoException e) {
+        LOG.error("Manejando error al crear objeto: {}", e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
