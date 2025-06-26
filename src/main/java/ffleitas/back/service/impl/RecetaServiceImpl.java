@@ -16,7 +16,6 @@ import ffleitas.back.exceptions.ElementoInexistenteException;
 import ffleitas.back.exceptions.ErrorAlCrearObjetoException;
 import ffleitas.back.mappers.IngredienteRecetaMapper;
 import ffleitas.back.mappers.RecetaMapper;
-import ffleitas.back.service.IngredienteService;
 import ffleitas.back.service.RecetaService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -94,7 +93,23 @@ public class RecetaServiceImpl implements RecetaService
 		}
 	}
 
-	private void crearIngredienteReceta(IngredienteRecetaDTO ingredienteReceta, Receta nuevaReceta) {
+	@Override
+	public RecetaDTO actualizarReceta(int idReceta, CrearRecetaRequest request) {
+		Receta receta = getRecetasRepository().obtenerRecetaPorId((long) idReceta).orElseThrow(() -> new ElementoInexistenteException("No se encontro la receta que intenta actualizar"));
+		if (!receta.getNombre().equalsIgnoreCase(request.getNombre())) {
+			receta.setNombre(request.getNombre());
+		}
+		if (!receta.getPasos().equals(request.getPasos())) {
+			receta.setPasos(request.getPasos());
+		}
+		getRecetasRepository().save(receta);
+		List<IngredienteReceta> ingredientesABorrar = getIngredienteRecetaRepository().findIngredienteRecetaByReceta(receta);
+		getIngredienteRecetaRepository().deleteAll(ingredientesABorrar);
+		request.getIngredientesReceta().forEach(ingredienteReceta -> crearIngredienteReceta(ingredienteReceta, receta));
+		return RecetaMapper.toRecetaDTO(receta);
+	}
+
+	private void crearIngredienteReceta(IngredienteRecetaDTO ingredienteReceta, Receta receta) {
 		final Ingrediente ingrediente = getIngredientesRepository().findByIdNotDeleted((long) ingredienteReceta.getIngrediente()).orElseThrow(() -> new ElementoInexistenteException("No se encontro el ingrediente con id: " + ingredienteReceta.getIngrediente()));
 		if (ingrediente == null) {
 			throw new ElementoInexistenteException("No se encontro el ingrediente con id: " + ingredienteReceta.getIngrediente());
@@ -104,7 +119,7 @@ public class RecetaServiceImpl implements RecetaService
 			throw new ElementoInexistenteException("No se encontro la medida con id: " + ingredienteReceta.getMedida());
 		}
 		IngredienteReceta nuevoIngredienteReceta = new IngredienteReceta();
-		nuevoIngredienteReceta.setReceta(nuevaReceta);
+		nuevoIngredienteReceta.setReceta(receta);
 		nuevoIngredienteReceta.setIngrediente(ingrediente);
 		nuevoIngredienteReceta.setMedida(medida);
 		nuevoIngredienteReceta.setCantidad(ingredienteReceta.getCantidad());

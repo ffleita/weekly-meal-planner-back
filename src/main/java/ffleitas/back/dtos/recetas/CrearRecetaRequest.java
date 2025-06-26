@@ -1,7 +1,6 @@
 package ffleitas.back.dtos.recetas;
 
 import ffleitas.back.dtos.ingredientereceta.IngredienteRecetaDTO;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -18,6 +17,6 @@ public class CrearRecetaRequest {
     private String nombre;
     @Size(min = 10, message = "Los pasos de la receta deben tener al menos 10 caracteres")
     private String pasos;
-    @Min(value = 1, message = "La receta debe tener al menos un ingrediente")
+    @Size(min = 1, message = "La receta debe tener al menos un ingrediente")
     private List<IngredienteRecetaDTO> ingredientesReceta;
 }

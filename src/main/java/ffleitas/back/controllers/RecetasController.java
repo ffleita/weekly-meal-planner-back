@@ -62,4 +62,11 @@ public class RecetasController
 		getRecetaService().eliminarReceta(id);
 		return ResponseEntity.noContent().build();
 	}
+
+	@Operation(summary = "Actualizar una receta existente")
+	@PutMapping("{id}")
+	public ResponseEntity<RecetaDTO> actualizarReceta(@PathVariable int id, @Valid @RequestBody CrearRecetaRequest request) {
+		RecetaDTO recetaActualizada = getRecetaService().actualizarReceta(id, request);
+		return ResponseEntity.ok(recetaActualizada);
+	}
 }

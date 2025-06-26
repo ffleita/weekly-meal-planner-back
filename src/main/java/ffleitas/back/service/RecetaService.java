@@ -16,4 +16,6 @@ public interface RecetaService {
 	RecetaDTO crearReceta(final CrearRecetaRequest request);
 
 	void eliminarReceta(int idReceta);
+
+	RecetaDTO actualizarReceta(int idReceta, CrearRecetaRequest request);
 }

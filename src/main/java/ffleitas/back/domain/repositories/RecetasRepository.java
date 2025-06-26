@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface RecetasRepository extends JpaRepository<Receta, Long>
@@ -17,4 +18,7 @@ public interface RecetasRepository extends JpaRepository<Receta, Long>
 
 	@Query("SELECT r FROM Receta r WHERE r.id = :id AND r.borradoLogico = false")
 	Receta obtenerRecetaNotEliminated(int id);
+
+	@Query("SELECT r FROM Receta r WHERE r.id = :id AND r.borradoLogico = false")
+	Optional<Receta> obtenerRecetaPorId(Long id);
 }
