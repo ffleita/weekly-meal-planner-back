@@ -13,6 +13,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Receta {
 
+    public Receta(String nombre, String pasos) {
+        this.nombre = nombre;
+        this.pasos = pasos;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

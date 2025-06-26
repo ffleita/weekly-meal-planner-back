@@ -1,8 +1,8 @@
 package ffleitas.back.controllers;
 
+import ffleitas.back.dtos.recetas.CrearRecetaRequest;
 import ffleitas.back.dtos.recetas.RecetaDTO;
 import ffleitas.back.dtos.recetas.RecetaDetailDTO;
-import ffleitas.back.exceptions.ElementoInexistenteException;
 import ffleitas.back.service.RecetaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 
@@ -44,5 +45,12 @@ public class RecetasController
 	public ResponseEntity<RecetaDetailDTO> getDetalleReceta(@PathVariable int idReceta)
 	{
 		return ResponseEntity.ok(getRecetaService().obtenerDetalleRecetaPorId(idReceta));
+	}
+
+	@PostMapping()
+	public ResponseEntity<RecetaDTO> crearReceta(@RequestBody CrearRecetaRequest request) {
+		RecetaDTO recetaCreada = getRecetaService().crearReceta(request);
+		return ResponseEntity.created(URI.create("/recetas/" + recetaCreada.getId()))
+				.body(recetaCreada);
 	}
 }

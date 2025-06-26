@@ -1,16 +1,27 @@
 package ffleitas.back.service.impl;
 
+import ffleitas.back.domain.entities.Ingrediente;
+import ffleitas.back.domain.entities.IngredienteReceta;
+import ffleitas.back.domain.entities.Medida;
+import ffleitas.back.domain.entities.Receta;
 import ffleitas.back.domain.repositories.IngredienteRecetaRepository;
+import ffleitas.back.domain.repositories.IngredientesRepository;
+import ffleitas.back.domain.repositories.MedidaRepository;
 import ffleitas.back.domain.repositories.RecetasRepository;
+import ffleitas.back.dtos.ingredientereceta.IngredienteRecetaDTO;
+import ffleitas.back.dtos.recetas.CrearRecetaRequest;
 import ffleitas.back.dtos.recetas.RecetaDTO;
 import ffleitas.back.dtos.recetas.RecetaDetailDTO;
 import ffleitas.back.exceptions.ElementoInexistenteException;
+import ffleitas.back.exceptions.ErrorAlCrearObjetoException;
 import ffleitas.back.mappers.IngredienteRecetaMapper;
 import ffleitas.back.mappers.RecetaMapper;
+import ffleitas.back.service.IngredienteService;
 import ffleitas.back.service.RecetaService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +35,10 @@ public class RecetaServiceImpl implements RecetaService
 	private final RecetasRepository recetasRepository;
 
 	private final IngredienteRecetaRepository ingredienteRecetaRepository;
+
+	private final IngredientesRepository ingredientesRepository;
+
+	private final MedidaRepository medidaRepository;
 
 	@Override
 	public List<RecetaDTO> listarRecetas()
@@ -52,5 +67,38 @@ public class RecetaServiceImpl implements RecetaService
 		final var listadoIngRecDTO = IngredienteRecetaMapper.toIngredienteRecetaDTOList(listadoIngredientesReceta);
 		return RecetaDetailDTO.builder().nombre(receta.getNombre()).ingredientesReceta(listadoIngRecDTO).pasos(receta.getPasos())
 				.build();
+	}
+
+	@Override
+	@Transactional
+	public RecetaDTO crearReceta(CrearRecetaRequest request) {
+		Receta receta = getRecetasRepository().obtenerRecetaByNombre(request.getNombre());
+		if (receta != null) {
+			throw new ErrorAlCrearObjetoException("Ya existe una receta con el nombre: " + request.getNombre());
+		}
+		if (request.getIngredientesReceta() == null || request.getIngredientesReceta().isEmpty()) {
+			throw new ErrorAlCrearObjetoException("La receta debe contener al menos un ingrediente");
+		}
+		Receta rec = new Receta(request.getNombre(), request.getPasos());
+		final var nuevaReceta = getRecetasRepository().save(rec);
+		request.getIngredientesReceta().forEach(ingredienteReceta -> crearIngredienteReceta(ingredienteReceta, nuevaReceta));
+		return RecetaMapper.toRecetaDTO(nuevaReceta);
+	}
+
+	private void crearIngredienteReceta(IngredienteRecetaDTO ingredienteReceta, Receta nuevaReceta) {
+		final Ingrediente ingrediente = getIngredientesRepository().findByIdNotDeleted((long) ingredienteReceta.getIngrediente()).orElseThrow(() -> new ElementoInexistenteException("No se encontro el ingrediente con id: " + ingredienteReceta.getIngrediente()));
+		if (ingrediente == null) {
+			throw new ElementoInexistenteException("No se encontro el ingrediente con id: " + ingredienteReceta.getIngrediente());
+		}
+		final Medida medida = getMedidaRepository().findById(ingredienteReceta.getMedida()).orElseThrow(() -> new ElementoInexistenteException("No se encontro la medida con id: " + ingredienteReceta.getMedida()));
+		if (medida == null) {
+			throw new ElementoInexistenteException("No se encontro la medida con id: " + ingredienteReceta.getMedida());
+		}
+		IngredienteReceta nuevoIngredienteReceta = new IngredienteReceta();
+		nuevoIngredienteReceta.setReceta(nuevaReceta);
+		nuevoIngredienteReceta.setIngrediente(ingrediente);
+		nuevoIngredienteReceta.setMedida(medida);
+		nuevoIngredienteReceta.setCantidad(ingredienteReceta.getCantidad());
+		getIngredienteRecetaRepository().save(nuevoIngredienteReceta);
 	}
 }

@@ -11,4 +11,7 @@ public interface RecetasRepository extends JpaRepository<Receta, Long>
 {
 	@Query("SELECT r FROM Receta r where r.borradoLogico = false")
 	List<Receta> findAllNotEliminated();
+
+	@Query("SELECT r FROM Receta r WHERE r.nombre = :nombre AND r.borradoLogico = false")
+	Receta obtenerRecetaByNombre(String nombre);
 }
