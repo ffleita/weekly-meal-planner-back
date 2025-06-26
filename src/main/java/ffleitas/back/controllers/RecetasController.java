@@ -54,4 +54,11 @@ public class RecetasController
 		return ResponseEntity.created(URI.create("/recetas/" + recetaCreada.getId()))
 				.body(recetaCreada);
 	}
+
+	@Operation(summary = "Eliminar una receta por ID")
+	@DeleteMapping("{id}")
+	public ResponseEntity<RecetaDTO> eliminarReceta(@PathVariable int id) {
+		getRecetaService().eliminarReceta(id);
+		return ResponseEntity.noContent().build();
+	}
 }

@@ -85,6 +85,15 @@ public class RecetaServiceImpl implements RecetaService
 		return RecetaMapper.toRecetaDTO(nuevaReceta);
 	}
 
+	@Override
+	public void eliminarReceta(int idReceta) {
+		Receta receta = getRecetasRepository().obtenerRecetaNotEliminated(idReceta);
+		if (receta != null) {
+			receta.setBorradoLogico(true);
+			getRecetasRepository().save(receta);
+		}
+	}
+
 	private void crearIngredienteReceta(IngredienteRecetaDTO ingredienteReceta, Receta nuevaReceta) {
 		final Ingrediente ingrediente = getIngredientesRepository().findByIdNotDeleted((long) ingredienteReceta.getIngrediente()).orElseThrow(() -> new ElementoInexistenteException("No se encontro el ingrediente con id: " + ingredienteReceta.getIngrediente()));
 		if (ingrediente == null) {
