@@ -1,7 +1,9 @@
 # weekly-meal-planner-back
-## Comandos para levantar la app en un contenedor de Docker
-1. docker build -t mi-app-spring .
-2. docker run -p 8080:8080 mi-app-spring
+## Tecnologias necesarias
+Java 17 (minimo), maven, BD mysql 8.0
+## Comandos para compilar y ejecutar la aplicacion
+Para instalar dependencias necesarias de Maven: mvn clean install\
+Levantar aplicacion de springboot en puerto 8080: mvn spring-boot:run
 ## Documentacion de los endpoint
 Levantar el servidor local y acceder a la documentacion de Swagger para ver la documentacion
 correspondiente a cada uno de los endpoints desarrollados para esta aplicacion.\
@@ -12,5 +14,3 @@ Se configuro SpringSecurity, por lo cual para hacer uso de los contratos se debe
 2. Copiar el token de acceso.
 3. Hacer click en el boton **_Authorize_** y completar el formulario con el token previamente copiado.
 4. Ya estas listo para probar los demas contratos.
-## Tecnologias necesarias
-- Docker
