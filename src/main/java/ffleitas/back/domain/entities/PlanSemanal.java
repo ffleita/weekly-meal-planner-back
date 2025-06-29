@@ -17,6 +17,6 @@ public class PlanSemanal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String descripcion;
-    @Column(name = "borrado_logico", nullable = false)
+    @Column(name = "borrado_logico", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean borradoLogico = false;
 }
