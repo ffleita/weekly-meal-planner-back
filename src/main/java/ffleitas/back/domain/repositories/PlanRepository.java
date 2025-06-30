@@ -10,4 +10,8 @@ public interface PlanRepository extends JpaRepository<PlanSemanal, Long> {
 
     @Query("SELECT ps FROM PlanSemanal ps WHERE ps.borradoLogico = false")
     List<PlanSemanal> listarPlanesSemanalesNoBorradoLogico();
+
+
+    @Query("SELECT ps FROM PlanSemanal ps WHERE ps.id = :id AND ps.borradoLogico = false")
+    PlanSemanal buscarPlanSemanalPorIdYNoBorradoLogico(Integer id);
 }
