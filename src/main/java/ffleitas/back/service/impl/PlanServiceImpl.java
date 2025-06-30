@@ -9,6 +9,7 @@ import ffleitas.back.exceptions.ElementoInexistenteException;
 import ffleitas.back.mappers.mapstructs.PlanSemanalMapper;
 import ffleitas.back.service.PlanService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,9 +43,14 @@ public class PlanServiceImpl implements PlanService {
         return null;
     }
 
+    @Transactional
     @Override
-    public void eliminarPlanPorId(Long id) {
-
+    public void eliminarPlanPorId(Integer id) {
+        PlanSemanal planSemanal = getPlanRepository().buscarPlanSemanalPorIdYNoBorradoLogico(id);
+        if (planSemanal != null) {
+            planSemanal.setBorradoLogico(true);
+            getPlanRepository().save(planSemanal);
+        }
     }
 
     public PlanRepository getPlanRepository() {

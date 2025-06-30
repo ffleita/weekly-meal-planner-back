@@ -11,5 +11,5 @@ public interface PlanService {
     List<PlanSemanalDTO> listarPlanes();
     PlanSemanalDetalleDTO obtenerDetalleDePlanPorId(Long id);
     PlanSemanalDTO crearPlan(PlanSemanalRequest planSemanalRequest);
-    void eliminarPlanPorId(Long id);
+    void eliminarPlanPorId(Integer id);
 }
