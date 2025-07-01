@@ -1,7 +1,12 @@
 package ffleitas.back.service.impl;
 
+import ffleitas.back.domain.entities.DiaSemana;
+import ffleitas.back.domain.entities.PlanDia;
 import ffleitas.back.domain.entities.PlanSemanal;
+import ffleitas.back.domain.repositories.PlanDiaRepository;
 import ffleitas.back.domain.repositories.PlanRepository;
+import ffleitas.back.domain.repositories.RecetasRepository;
+import ffleitas.back.dtos.planes.PlanDiaDTO;
 import ffleitas.back.dtos.planes.PlanSemanalDTO;
 import ffleitas.back.dtos.planes.PlanSemanalDetalleDTO;
 import ffleitas.back.dtos.planes.PlanSemanalRequest;
@@ -24,6 +29,8 @@ import java.util.List;
 public class PlanServiceImpl implements PlanService {
 
     private final PlanRepository planRepository;
+    private final RecetasRepository recetasRepository;
+    private final PlanDiaRepository planDiaRepository;
     private final PlanSemanalMapper planSemanalMapper;
     private final PlanSemanalDetalleMapper planSemanalDetalleMapper;
 
@@ -47,9 +54,36 @@ public class PlanServiceImpl implements PlanService {
         return planDto;
     }
 
+    @Transactional
     @Override
     public PlanSemanalDTO crearPlan(PlanSemanalRequest planSemanalRequest) {
-        return null;
+        PlanSemanal plan = new PlanSemanal();
+        plan.setDescripcion(planSemanalRequest.getDescripcion());
+        final PlanSemanal nuevoPlanFinal = getPlanRepository().save(plan);
+        planSemanalRequest.getDias().forEach(planDiaDTO -> {
+            createPlanDiaAndAssignToPlan(planDiaDTO, nuevoPlanFinal);
+        });
+        return getPlanSemanalMapper().toDto(nuevoPlanFinal);
+    }
+
+    public void createPlanDiaAndAssignToPlan(PlanDiaDTO planDiaDTO, PlanSemanal planSemanal) {
+        PlanDia planDia = new PlanDia();
+        planDia.setPlanSemanal(planSemanal);
+        planDia.setDiaSemana(getDiaSemanaDesdeString(planDiaDTO.getDiaSemana()));
+        planDia.setCenaReceta(getRecetasRepository().obtenerRecetaNotEliminated(planDiaDTO.getCenaReceta().getId().intValue()));
+        planDia.setAlmuerzoReceta(getRecetasRepository().obtenerRecetaNotEliminated(planDiaDTO.getAlmuerzoReceta().getId().intValue()));
+        getPlanDiaRepository().save(planDia);
+    }
+
+    public static DiaSemana getDiaSemanaDesdeString(String dia) {
+        return switch (dia.toLowerCase()) {
+            case "lunes" -> DiaSemana.LUNES;
+            case "martes" -> DiaSemana.MARTES;
+            case "miercoles" -> DiaSemana.MIERCOLES;
+            case "jueves" -> DiaSemana.JUEVES;
+            case "viernes" -> DiaSemana.VIERNES;
+            default -> throw new IllegalArgumentException("Día de la semana no válido: " + dia);
+        };
     }
 
     @Transactional
