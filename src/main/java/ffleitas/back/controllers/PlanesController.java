@@ -1,6 +1,7 @@
 package ffleitas.back.controllers;
 
 import ffleitas.back.dtos.planes.PlanSemanalDTO;
+import ffleitas.back.dtos.planes.PlanSemanalDetalleDTO;
 import ffleitas.back.service.PlanService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,5 +32,10 @@ public class PlanesController {
     public ResponseEntity<String> eliminarPlanPorId(@PathVariable Integer id) {
         getPlanService().eliminarPlanPorId(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PlanSemanalDetalleDTO> obtenerDetalleDePlanPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(getPlanService().obtenerDetalleDePlanPorId(id));
     }
 }

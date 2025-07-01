@@ -8,6 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @ToString
+@Getter
+@Setter
 public class RecetaDTO
 {
 	private Long id;
