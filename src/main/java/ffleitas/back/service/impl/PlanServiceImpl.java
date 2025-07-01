@@ -60,9 +60,7 @@ public class PlanServiceImpl implements PlanService {
         PlanSemanal plan = new PlanSemanal();
         plan.setDescripcion(planSemanalRequest.getDescripcion());
         final PlanSemanal nuevoPlanFinal = getPlanRepository().save(plan);
-        planSemanalRequest.getDias().forEach(planDiaDTO -> {
-            createPlanDiaAndAssignToPlan(planDiaDTO, nuevoPlanFinal);
-        });
+        planSemanalRequest.getDias().forEach(planDiaDTO -> createPlanDiaAndAssignToPlan(planDiaDTO, nuevoPlanFinal));
         return getPlanSemanalMapper().toDto(nuevoPlanFinal);
     }
 
